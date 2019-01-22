@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/movie_index.css">
+    <link rel="stylesheet" href="css/banner.css">
+    <title>Document</title>
+    <script src="js/js/vue.js"></script>
+    <script src="js/js/axios.min.js"></script>
+    <script src="js/js/jquery-1.11.3.js"></script>
+    <script src="js/banner.js"></script>
+    <script src="js/header.js"></script>
+    <script src="js/footer.js"></script>
+</head>
+<body>
+    <!-- 2019-1-13 -->
+    <header id="header"></header>
+    <div id="content">
+        <!-- 左则固定条  #sj #dy #dmkt #zyyl-->
+        <div id="navbar">
+            <ul>
+                <li id="li1"><a href="javascript:;">电视剧</a></li>
+                <li id="li2"><a href="javascript:;">电影</a></li>
+                <li id="li3"><a href="javascript:;">动漫卡通</a></li>
+                <li id="li4"><a href="javascript:;">综艺娱乐</a></li>
+            </ul>
+        </div>
+        <!-- 首页1楼列表 -->
+        <div id="oneFloor">
+            <!-- 轮播图 -->
+            <div id="slider">
+                <div class="tup">
+                    <!-- <img src="" alt=""> -->
+                </div>
+                <ul id="carsel">
+                    <!-- <li class="active"></li> -->
+                </ul>
+                <div class="ctrl-slider prev_pic"></div>
+                <div class="ctrl-slider next_pic"></div>
+                <!-- <div class="tit"></div> -->
+            </div>
+            <div class="lb">
+                <ul>
+                    <li v-for="key of list"><a href="javascript:;">
+                        {{key.title}}
+                    </a></li>
+                </ul>
+            </div>
+        </div>
+        <!-- 2.热播影视 -->
+        <div class="rbys"id="rbys">
+            <div class="t">
+                <h3>热播影视</h3> 
+            </div>
+            <div class="b">
+                <div v-for="key of list">
+                    <img :src="key.img_url"  @click="change(key.id)">
+                    <a href="javascript:;">{{key.title}}</a>
+                    <span>更新至{{key.num}}集</span>
+                </div>
+            </div>
+        </div>
+        <!-- 3.电视节目 @click.prevent="change"-->
+        <div id="dsjm">
+            <div class="t">
+                <h3>电视节目表</h3>
+                <span id="today"></span>
+                <span @click.prevent="change"><a href="javascript:;">更多 >>></a></span>
+            </div>
+            <div class="b">
+                <div class="tv" v-for="key of lists">
+                    <div class="tv1">
+                        <div><img :src="key.img_url"></div>
+                        <div><a href="javascript:;">{{key.title}}</a></div>
+                    </div>
+                    <div class="tv-list">
+                        <ul>
+                            <li><span>{{key.time1}}</span><a href="javascript:;">{{key.title1}}</a></li>
+                            <li><span>{{key.time2}}</span><a href="javascript:;">{{key.title2}}</a></li>
+                            <li><span>{{key.time3}}</span><a href="javascript:;">{{key.title3}}</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 4.电视剧 -->
+        <div class="dsj" id="sj">
+            <div class="left">
+                <div class="top">
+                    <div class="r">
+                        <ul>
+                            <li>
+                                <a href="javascript:;"><h3>电视剧</h3></a>
+                            </li>
+                            <li>
+                                <a href="javascript:;">推荐</a>
+                            </li>
+                            <li>
+                                <a href="javascript:;">电视台热播</a>
+                            </li>
+                            <li>
+                                <a href="javascript:;">即将播出</a>
+                            </li>
+                            <li>
+                                <a href="javascript:;">新入库</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="l">
+                        <a href="javascript:;">更多>>></a> 
+                    </div>
+                </div>
+                <div class="bottom">
+                    <div>
+                        <div v-for="key of list">
+                            <img :src="key.img_url" alt="">
+                            <a href="javascript:;">{{key.title}}</a>
+                            <span>更新至{{key.num}}集</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="right">
+                <div class="top">
+                    <h3>电视剧排行榜</h3>
+                    <a href="javascript:;">更多>>></a>   
+                </div>
+                <div class="bottom">
+                    <ul>
+                        <li v-for="key of list" class="actived">
+                            <span>
+                                <a href="javascript:;">{{key.id}}</a>
+                            </span>
+                            <span>
+                                <a href="javascript:;">{{key.title}}</a>
+                            </span>
+                            <span>
+                                <a href="javascript:;">更新至{{key.num}}集</a>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- 5.电影 -->
+        <div class="dsj" id="dy">
+            <div class="left">
+                <div class="top">
+                    <div class="r">
+                        <ul>
+                            <li>
+                                <a href="javascript:;"><h3>电影</h3></a>
+                            </li>
+                            <li>
+                                <a href="javascript:;">推荐</a>
+                            </li>
+                            <li>
+                                <a href="javascript:;">电影院热播</a>
+                            </li>
+                            <li>
+                                <a href="javascript:;">即将播出</a>
+                            </li>
+                            <li>
+                                <a href="javascript:;">新入库</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="l">
+                        <a href="javascript:;">更多>>></a> 
+                    </div>
+                </div>
+                <div class="bottom">
+                    <div>
+                        <div v-for="key of list">
+                            <img :src="key.img_url" alt="">
+                            <a href="javascript:;">{{key.title}}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="right">
+                <div class="top">
+                    <h3>电影排行榜</h3>
+                    <a href="javascript:;">更多>>></a>   
+                </div>
+                <div class="bottom">
+                    <ul>
+                        <li v-for="key of list" class="actived">
+                            <span>
+                                <a href="javascript:;">{{key.id}}</a>
+                            </span>
+                            <span>
+                                <a href="javascript:;">{{key.title}}</a>
+                            </span>
+                            <span>
+                                <a href="javascript:;">更新至{{key.num}}集</a>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- 动漫卡通 -->
+        <div class="dsj" id="dmkt">
+            <div class="left">
+                <div class="top">
+                    <div class="r">
+                        <ul>
+                            <li>
+                                <a href="javascript:;"><h3>动漫卡通</h3></a>
+                            </li>
+                            <li>
+                                <a href="javascript:;">推荐</a>
+                            </li>
+                            <li>
+                                <a href="javascript:;">电影院热播</a>
+                            </li>
+                            <li>
+                                <a href="javascript:;">即将播出</a>
+                            </li>
+                            <li>
+                                <a href="javascript:;">新入库</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="l">
+                        <a href="javascript:;">更多>>></a> 
+                    </div>
+                </div>
+                <div class="bottom">
+                    <div>
+                        <div v-for="key of list">
+                            <img :src="key.img_url" alt="">
+                            <a href="javascript:;">{{key.title}}</a>
+                            <span>更新至{{key.num}}集</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="right">
+                <div class="top">
+                    <h3>动漫排行榜</h3>
+                    <a href="javascript:;">更多>>></a>
+                </div>
+                <div class="bottom">
+                    <ul>
+                        <li v-for="key of list" class="actived">
+                            <span>
+                                <a href="javascript:;">{{key.id}}</a>
+                            </span>
+                            <span>
+                                <a href="javascript:;">{{key.title}}</a>
+                            </span>
+                            <span>
+                                <a href="javascript:;">更新至{{key.num}}集</a>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- 综艺娱乐 -->
+        <div class="dsj" id="zyyl">
+            <div class="left">
+                <div class="top">
+                    <div class="r">
+                        <ul>
+                            <li>
+                                <a href="javascript:;"><h3>综艺娱乐</h3></a>
+                            </li>
+                            <li>
+                                <a href="javascript:;">推荐</a>
+                            </li>
+                            <li>
+                                <a href="javascript:;">电影院热播</a>
+                            </li>
+                            <li>
+                                <a href="javascript:;">即将播出</a>
+                            </li>
+                            <li>
+                                <a href="javascript:;">新入库</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="l">
+                        <a href="javascript:;">更多>>></a> 
+                    </div>
+                </div>
+                <div class="bottom">
+                    <div>
+                        <div v-for="key of list">
+                            <img :src="key.img_url" alt="">
+                            <a href="javascript:;">{{key.title}}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="right">
+                <div class="top">
+                    <h3>综艺娱乐排行榜</h3>
+                    <a href="javascript:;">更多>>></a>
+                </div>
+                <div class="bottom">
+                    <ul>
+                        <li v-for="key of list" class="actived">
+                            <span>
+                                <a href="javascript:;">{{key.id}}</a>
+                            </span>
+                            <span>
+                                <a href="javascript:;">{{key.title}}</a>
+                            </span>
+                            <span>
+                                <a href="javascript:;">更新至{{key.num}}集</a>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- 最新图片 -->
+        <div class="rbys" id="zxtp">
+            <div class="t">
+                <ul>
+                    <li>
+                        <a href="javascript:;">
+                        <h3>最新图片</h3></a>
+                    </li>
+                    <li><a href="javascript:;">海报</a></li>
+                    <li><a href="javascript:;">剧照</a></li>
+                </ul>
+            </div>
+            <div class="b">
+                <div v-for="key of list">
+                    <img :src="key.img_url" alt="">
+                    <a href="javascript:;">{{key.title}}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer id="footer"></footer>
+    <script>
+        //首页1楼列表
+        new Vue({
+            el:".lb",
+            data:{
+                list:[],
+                id:1,
+            },
+            methods:{
+                getMore(){
+                    var url="http://127.0.0.1:3000/getOFList";
+                    axios.get(url).then((result)=>{
+                        this.list=result.data;
+                    })
+                },
+            },
+            created() {
+                this.getMore();
+            },
+        });
+        // 2.热播影视
+            // 2.热播影视
+        new Vue({
+            el:"#rbys .b",
+            data:{
+                list:[]
+            },
+            methods:{
+                getMore(){
+                    url="http://127.0.0.1:3000/getRbys";
+                    axios.get(url).then((res)=>{
+                        this.list=res.data;
+                    })
+                },
+                change(id){
+                    this.id=id;
+                    location.href="http://127.0.0.1:5500/movie_list.html?id="+id;
+                }
+            },
+            created(){
+                this.getMore();
+            }
+        });
+            //4.电视剧
+        new Vue({
+            el:"#sj .left .bottom div",
+            data:{
+                list:[]
+            },
+            methods:{
+                getMore(){
+                    url="http://127.0.0.1:3000/getRbys";
+                    axios.get(url).then((res)=>{
+                        this.list=res.data;
+                    })
+                }
+            },
+            created(){
+                this.getMore();
+            }
+        });
+            //5.电影
+        new Vue({
+            el:"#dy .left .bottom div",
+            data:{
+                list:[],
+            },
+            methods:{
+                getMore(){
+                    url="http://127.0.0.1:3000/getRbys";
+                    axios.get(url).then((res)=>{
+                        this.list=res.data;
+                    })
+                }
+            },
+            created(){
+                this.getMore();
+                // this.actived();
+            },
+        });
+            // 动漫卡通
+        new Vue({
+            el:"#dmkt .left .bottom div",
+            data:{
+                list:[],
+            },
+            methods:{
+                getMore(){
+                    url="http://127.0.0.1:3000/getRbys";
+                    axios.get(url).then((res)=>{
+                        this.list=res.data;
+                    })
+                }
+            },
+            created(){
+                this.getMore();
+                // this.actived();
+            },
+        });
+        // 综艺娱乐
+        new Vue({
+            el:"#zyyl .left .bottom div",
+            data:{
+                list:[],
+            },
+            methods:{
+                getMore(){
+                    url="http://127.0.0.1:3000/getRbys";
+                        axios.get(url).then((res)=>{
+                            this.list=res.data;
+                        })
+                    }
+                },
+                created(){
+                    this.getMore();
+                    // this.actived();
+                },
+            });
+            // 最新图片
+        new Vue({
+            el:"#zxtp .b",
+            data:{
+                list:[]
+            },
+            methods:{
+                getMore(){
+                    url="http://127.0.0.1:3000/getRbys";
+                    axios.get(url).then((res)=>{
+                        this.list=res.data;
+                    })
+                }
+            },
+            created(){
+                this.getMore();
+            }
+        });
+        // })
+        // 3.电视节目
+        new Vue({
+            el:"#dsjm",
+            data(){
+                return {
+                    lists:[],
+                    pno:1,
+                    pageSize:6,
+                    pageCount:1,
+                }
+            },
+            methods: {
+                getMore(){
+                    var url="http://127.0.0.1:3000/getDsjm?pno="+this.pno+"&pageSize="+this.pageSize;
+                    axios.get(url).then((res)=>{
+                        this.lists=res.data.data;
+                        this.pageCount=res.data.pageCount;
+                        // console.log(this.pno);
+                        console.log(this.lists);
+                        // console.log(this.pageCount);
+                    })
+                },
+                change(){
+                    if(this.pno<this.pageCount){
+                        this.pno++;
+                    }
+                    else{
+                        this.pno=1;
+                    } 
+                    this.getMore();
+                }
+            },
+            created(){
+                this.getMore();
+            },
+        })
+        // 4.电视剧 排行榜
+            // 4.电视剧 排行榜
+        new Vue({
+            el:"#sj .right .bottom ul",
+            data:{
+                list:[],
+            },
+            methods:{
+                getMore(){
+                    var url="http://127.0.0.1:3000/getRank";
+                    axios.get(url).then((res)=>{
+                        this.list=res.data;
+                    })
+                }
+            },
+            created(){
+                this.getMore();
+                // this.actived();
+            },
+        });
+        // 5.电影 排行榜
+        new Vue({
+            el:"#dy .right .bottom ul",
+            data:{
+                list:[],
+            },
+            methods:{
+                getMore(){
+                    var url="http://127.0.0.1:3000/getRank";
+                    axios.get(url).then((res)=>{
+                        this.list=res.data;
+                    })
+                }
+            },
+            created(){
+                this.getMore();
+                // this.actived();
+            },
+        });
+            // 动漫卡通
+        new Vue({
+            el:"#dmkt .right .bottom ul",
+            data:{
+                list:[],
+            },
+            methods:{
+                getMore(){
+                    var url="http://127.0.0.1:3000/getRank";
+                    axios.get(url).then((res)=>{
+                        this.list=res.data;
+                    })
+                }
+            },
+            created(){
+                this.getMore();
+                // this.actived();
+            },
+        });
+            // 综艺娱乐
+        new Vue({
+            el:"#zyyl .right .bottom ul",
+            data:{
+                list:[],
+            },
+            methods:{
+                getMore(){
+                    var url="http://127.0.0.1:3000/getRank";
+                    axios.get(url).then((res)=>{
+                        this.list=res.data;
+                    })
+                }
+            },
+            created(){
+                this.getMore();
+                // this.actived();
+            },
+            });
+        // $("#dsj .right .bottom ul li").gt(2).removeClass("actived");
+    </script>
+    <script>
+        // 页面滚动条的显示与隐藏
+        window.onscroll=function(){
+            var scrollTop=document.body.scrollTop||document.documentElement.scrollTop;
+            // console.log(scrollTop);
+            if(scrollTop>=500)
+                navbar.style.display="block";
+            else
+                navbar.style.display="none";
+        }
+        //页面滚动条去往各地址
+        $('#navbar').on("click","ul>li>a",function(e){
+			e.preventDefault();
+			var i=$('#navbar>ul>li').index($(e.target).parent());
+			//console.dir($(e.target).parent());
+            //console.dir(i);
+            var move=function(){
+                $('#navbar>ul>li').addClass("actived").siblings().remove("actived");
+                    $('#navbar>ul>li>a').addClass("actived").siblings().remove("actived");
+            }
+			switch(i){
+				case 0:
+					$('body').stop();
+					$('body,html').animate({
+						scrollTop:1400
+                    },1000);
+                    move();
+                    console.log(1000);
+					break;
+				case 1:
+					$('body').stop();
+					$('body,html').animate({
+						scrollTop:2300
+                    },1000);
+                    move();
+                    console.log(1111);
+					break;
+				case 2:
+					$('body').stop();
+					$('body,html').animate({
+						scrollTop:3200
+                    },1000);
+                    move();
+                    console.log(2222);
+					break;
+				case 3:
+					$('body').stop();
+					$('body,html').animate({
+						scrollTop:4150
+                    },1000);
+                    move();
+                    console.log(3333);
+					break;
+			    }
+        }.bind(this));
+
+        var dayweek="";
+switch((new Date()).getDay()){
+	case 0:
+		dayweek="星期日";
+		break;
+	case 1:
+		dayweek="星期一";
+		break;
+	case 2:
+		dayweek="星期二";
+		break;
+	case 3:
+		dayweek="星期三";
+		break;
+	case 4:
+		dayweek="星期四";
+		break;
+	case 5:
+		dayweek="星期五";
+		break;
+	case 6:
+		dayweek="星期六";
+		break;
+}
+    var year=(new Date()).getFullYear();
+    var month=(new Date()).getMonth()+1;
+    var day=(new Date()).getDate();
+    if(month<10)month="0"+month;
+    if(day<10)day="0"+day;
+    $("#today").html("今日:"+year+"年-"+month+"月-"+day+"日 "+dayweek);
+
+
+// $('#load>a.btnload').click(function(e){
+//   e.preventDefault();
+//   $('#load>div.load').css('display','block');
+// });
+
+// $('#load>div.load span.close').click(function(e){
+//   e.preventDefault();
+//   $('#load>div.load').css('display','none');
+// });
+
+// 热播影视 
+// $('#hotmouse>div.hotmain>dl>dt').on("mouseenter","a",function(e)
+$('#rbys>.b>img').on("mouseenter","a",function(e){
+    console.log(1111);
+	$('#rbys>.b>img').stop();
+	var x=0; 
+	x=e.offsetX;
+	var  y=0;
+	y=e.offsetY;
+  //console.log(x,y);
+  //console.log(e.target.pageX,e.target.pageY);
+	if(e.offsetX<-1){
+		return;
+	}
+	if(e.offsetY<-1){
+		return;
+	}
+	//console.log($(this));
+	//console.log($(e.target));
+	if(y>240){
+		$(e.target).attr('class','zz buttom');
+		return;
+	}
+	if(y<10){
+		$(e.target).attr('class','zz top');
+		return;
+	}
+	if(x<10){
+		$(e.target).attr('class','zz left');
+		return;
+	}
+	if(x>170){
+		$(e.target).attr('class','zz right');
+		return;
+	}
+
+});
+$('#rbys>.b>img').on("mouseleave","a",function(e){
+        console.log(2222);
+		//ss1.setAttribute('class','');
+		var x=e.offsetX;
+		var y=e.offsetY;
+		//console.log(x,y);
+		if(y<0){
+			$(e.target).attr('class','zz totop');
+			return;
+		}
+		if(x<0){
+			$(e.target).attr('class','zz toleft');
+			return;
+		}
+		if(x>170){
+			$(e.target).attr('class','zz toright');
+			return;
+		}
+		if(y>252){
+			$(e.target).attr('class','zz tobuttom');
+			return;
+		}
+});
+
+    </script>
+    <script>
+        // new Vue({
+        //     el:"#content",
+        //     data:{},
+        //     methods:{},
+        //     created(){}
+        // })
+    </script>
+</body>
+</html>

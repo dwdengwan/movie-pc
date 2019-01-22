@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="js/js/vue.js"></script>
+    <script src="js/js/axios.min.js"></script>
+    <link rel="stylesheet" href="css/movie_ryys.css">
+    <script src="js/js/jquery-1.11.3.js"></script>
+    <script src="js/header.js"></script>
+    <script src="js/footer.js"></script>
+</head>
+<body>
+    <header id="header"></header>
+    <!-- 热映影视 -->
+    <div class="content" id="reduce">
+        <div v-for="key of list" :key="key.id">
+            <a href="javascript:;"><img :src="key.img_url"></a>
+            <p><a href="javascript:;">{{key.title}}</a></p>
+        </div>
+    </div>
+    <footer id="footer"></footer>
+    <script>
+        new Vue({
+            el:"#reduce",
+            data:{
+                list:[],
+            },
+            methods:{
+                getMore(){
+                    url="http://127.0.0.1:3000/getRyys";
+                    axios.get(url).then(res=>{
+                        this.list=res.data;
+                        console.log(this.list);
+                    })
+                }
+            },
+            created() {
+                this.getMore();
+            },
+        })
+    </script>
+</body>
+</html>

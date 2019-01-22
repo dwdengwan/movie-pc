@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/movie_dsj.css">
+    <script src="js/js/vue.js"></script>
+    <script src="js/js/axios.min.js"></script>
+    <script src="js/js/jquery-1.11.3.js"></script>
+    <script src="js/header.js"></script>
+    <script src="js/footer.js"></script>
+</head>
+<body>
+    <header id="header"></header>
+    <!-- 电视剧 -->
+    <div class="content" id="onefloor">
+        <div class="top">
+            <div class="tt">
+                <h3>热播影视</h3> 
+            </div>
+            <div class="tb">
+                <div v-for="key of list">
+                    <div>
+                        <img :src="key.img_url">
+                        <p><a href="javascript:;">{{key.title}}</a></p>
+                    </div>
+                    <div class="tbottom">更新至{{key.num}}集</div>
+                </div>
+            </div>
+        </div>
+        <div class="middle">
+            <div class="right">
+                <div class="tp">
+                    <ul>
+                        <li>电视剧</li>
+                        <li>电影</li>
+                    </ul>
+                </div>
+                <div class="bt">
+                    <ul>
+                        <li><h3>地区：</h3></li>
+                        <li class="actived"><a href="javascript:;" class="actived">全部</a></li>
+                        <li><a href="javascript:;">国产</a></li>
+                        <li><a href="javascript:;">韩国</a></li>
+                        <li><a href="javascript:;">美国</a></li>
+                        <li><a href="javascript:;">香港</a></li>
+                        <li><a href="javascript:;">台湾</a></li>
+                        <li><a href="javascript:;">日本</a></li>
+                        <li><a href="javascript:;">英国</a></li>
+                        <li><a href="javascript:;">泰国</a></li>
+                        <li><a href="javascript:;">海外</a></li>
+                    </ul>
+                    <ul>
+                        <li><h3>分类：</h3></li>
+                        <li class="actived"><a href="javascript:;" class="actived">全部</a></li>
+                        <li><a href="javascript:;">动作片</a></li>
+                        <li><a href="javascript:;">喜剧片</a></li>
+                        <li><a href="javascript:;">爱情片</a></li>
+                        <li><a href="javascript:;">科幻片</a></li>
+                        <li><a href="javascript:;">恐怖片</a></li>
+                        <li><a href="javascript:;">战争片</a></li>
+                        <li><a href="javascript:;">剧情片</a></li>
+                    </ul>
+                    <ul>
+                        <li><h3>年份：</h3></li>
+                        <li class="actived"><a href="javascript:;" class="actived">全部</a></li>
+                        <li><a href="javascript:;">2018</a></li>
+                        <li><a href="javascript:;">2017</a></li>
+                        <li><a href="javascript:;">2016</a></li>
+                        <li><a href="javascript:;">2015</a></li>
+                        <li><a href="javascript:;">2014</a></li>
+                        <li><a href="javascript:;">2013</a></li>
+                        <li><a href="javascript:;">2012</a></li>
+                        <li><a href="javascript:;">2011</a></li>
+                        <li><a href="javascript:;">2010</a></li>
+                        <li><a href="javascript:;">2009</a></li>
+                        <li><a href="javascript:;">2008</a></li>
+                    </ul>
+                </div>
+                <div class="list">
+                    <div class="cc" v-for="key of list1">
+                        <a href="javascript:;"><img :src="key.img" alt=""></a>
+                        <ul>
+                            <li><a href="javascript:;">{{key.title}}</a></li>
+                            <li><a href="javascript:;">主演：{{key.uname}}</a></li>
+                            <li><a href="javascript:;">类型：{{key.lx}}</a></li>
+                            <li><a href="javascript:;">地区：{{key.area}}</a></li>
+                            <li><a href="javascript:;">上映：{{key.num}}年</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="left">
+                <div class="top">
+                    <h3>热门影视</h3> 
+                </div>
+                <div class="but" v-for="key of list2">
+                    <div class="tp">
+                        <h3>{{key.title}}</h3>
+                    </div>
+                    <div class="bt">
+                        <a href="javascript:;"><img :src="key.img_url"></a> 
+                        <ul>
+                            <li><span>主演：</span>{{key.uname}}</li>
+                            <li><span>类型：</span>{{key.mold}}</li>
+                            <li><span>上映：</span>{{key.year}}年</li>
+                            <li><span>状态：</span>更新至{{key.num}}集</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="buttom">
+            <ul>
+                <li @click="first">首页</li>
+                <li @click="change(-1)">上一页</li>
+                <li class="actived">1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+                <li>5</li>
+                <li @click="change(+1)">下一页</li>
+                <li @click="last">末页</li>
+            </ul>
+        </div>
+    </div>
+    <footer id="footer"></footer>
+    <br><br><br>
+    <script>
+        new Vue({
+            el:"#onefloor",
+            data:{
+                list:[],
+                pno:1,//页码
+                pageSize:10,//页大小
+                pageCount:1,//页总数
+                list1:[],
+                list2:[],
+            },
+            methods:{
+                getMore(){
+                    url="http://127.0.0.1:3000/getRbys";
+                    axios.get(url).then(res=>{
+                        this.list=res.data;
+                    })
+                },
+                getLeft(){//分页查询
+                    url="http://127.0.0.1:3000/getDsj?pno="+this.pno+"&pageSize"+this.pageSize;
+                    axios.get(url).then(res=>{
+                        this.list1=res.data.data;
+                        this.pageCount=res.data.pageCount;
+                    })
+                },
+                getList(){
+                    url="http://127.0.0.1:3000/getRbys1";
+                    axios.get(url).then(res=>{
+                        console.log(res.data);
+                        this.list2=res.data;
+                    })
+                },
+                change(i){
+                    if(this.pno>0&&this.pno<this.pageCount){
+                        this.pno+=i;
+                    }
+                   else{
+                       this.pno=1;
+                   }
+                    this.getLeft();
+                },
+                first(){
+                    this.pno=1;
+                    this.getLeft();
+                },
+                last(){
+                    this.pno=this.pageCount;
+                    this.getLeft();
+                },
+            },
+            created() {
+                this.getMore();
+                this.getLeft();
+                this.getList();
+            },
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/movie_details.css">
+    <script src="js/js/jquery-1.11.3.js"></script>
+    <script src="js/js/vue.js"></script>
+    <script src="js/js/axios.min.js"></script>
+    <script src="js/header.js"></script>
+    <script src="js/footer.js"></script>
+</head>
+<body>
+    <header id="header"></header>
+    <!-- 详情页 -->
+    <!-- 2.热播影视 -->
+    <div class="rbys"id="rbys">
+        <div class="t">
+            <h3>热播影视</h3> 
+        </div>
+        <div class="b">
+            <div v-for="key of list">
+                <img :src="key.img"  @click="change(key.id)">
+                <a href="javascript:;">{{key.title}}</a>
+                <span>更新至{{key.num}}集</span>
+            </div>
+            <div id="kongkong">{{text}}</div>
+        </div>
+    </div>
+    <footer id="footer"></footer>
+    <script>
+        new Vue({
+            el:"#rbys",
+            data:{
+                list:[],
+                text:"",
+            },
+            methods: {
+                change(id){
+                    this.id=id;
+                    location.href="http://127.0.0.1:5500/movie_list.html?id="+id;
+                    console.log(this.id);
+                },
+                getKeyWord(keyword){
+                    //keyword内容
+                    var keyword=location.search.split("=")[1];
+                    keyword=decodeURI(keyword);
+                    var url="http://127.0.0.1:3000/getKeyword?keyword="+keyword;
+                    axios.get(url).then(result=>{
+                        this.list=result.data;
+                        console.log(result.data);
+                        if(this.list==[]){
+                            this.text="该影视未被本网站收藏!!!";
+                            console.log(this.text);
+                        }
+                    })
+                },
+            },
+            created() {
+                this.getKeyWord();
+            },
+        })
+    </script>
+</body>
+</html>
