@@ -1,0 +1,163 @@
+body{
+    font: 12px "microsoft yahei";
+    color: #666;
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+}
+ul li{
+    list-style-type: none;
+}
+a{
+    text-decoration: none;
+    color:#666;
+}
+#header{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content:center;
+    /* border:1px solid red; */
+    margin-top:20px;
+    margin-left:60px;
+    margin-right:60px;
+    /* position: fixed; */
+}
+#first_parent{
+    /* display: flex;
+    flex-flow: row nowrap; */
+    justify-content: space-between;
+    /* border:1px solid #000; */
+}
+#first_parent #day{
+    text-align: center;
+    /* margin-left:300px; */
+    width: 1230px;
+    height: 50px;
+    font-size: 30px;
+    font-weight: bolder;
+    line-height: 50px;
+    border:1px solid blue;
+    background-image:linear-gradient(to right,#f08 20%,#f06 40%,#f04 60%,#f02 80%,#f00 100%);
+    color:#fff;
+    border-radius: 5px;
+}
+#first_parent .first_parent_firstchild{
+    height:0px;
+    display:flex;
+    flex-flow:row nowrap;
+    justify-content:flex-start;
+    /* border:1px solid #000; */
+}
+#first_parent .first_parent_secondchild{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+    /* border:1px solid #000; */
+}
+#first_parent .first_parent_sgrandson1 ul{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+    /* border:1px solid #000; */
+}
+#first_parent .first_parent_sgrandson1 ul li:not(:last-child){
+    margin-right:10px;
+}
+#first_parent .first_parent_sgrandson1 ul li a:hover{
+    color:blue;
+} 
+#first_parent .first_parent_sgrandson2{
+    height:30px;
+    line-height: 30px;
+    margin-left:300px; 
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    /* border:1px solid #000; */
+}
+#first_parent .first_parent_sgrandson2 input{
+    width:280px;
+    border:1px solid pink;
+}
+#first_parent .first_parent_sgrandson2 div:nth-child(2){
+    width:60px;
+    height: 32px;
+    border:1px solid #666;
+    text-align: center;
+}
+#first_parent .first_parent_sgrandson2 div:last-child{
+    width:100px;
+    height: 32px;
+    border:1px solid #666;
+    text-align: center;
+    margin-left:10px;
+    background:pink;
+}
+#first_parent .first_parent_sgrandson2 div:last-child a{
+    color:#fff;
+}
+#first_parent .fp_grandson1,#first_parent .fp_grandson2,#first_parent .fp_grandson3{
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    margin-left:10px;
+    /* margin-top:10px; */
+    font: 40px "华云彩文"; 
+    transform-origin:center center;
+    /* background-image:linear-gradient(to bottom,#f00 0%,#0ff 100%); */
+    /* background-image:radial-gradient(25px at center center,#f00 0%,pink 20%,yellow 40%,blue 60%,#369 80%,#fff 100%); */
+}
+.first_parent_sgrandson2{
+    margin-bottom:10px;
+    margin-right:400px;
+}
+.first_parent_sgrandson2 input{
+    width:400px;
+    height:30px;
+}
+#second_parent{
+    height: 40px;
+    background:#4b6cf3;
+}
+#second_parent ul{
+    font-size:20px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    /* border:1px solid #000; */
+}
+#second_parent ul li{
+    padding-left:20px;
+    padding-right: 20px;
+    line-height: 2;
+    /* margin-left:50px; */
+    margin-top:-20px;
+}
+#second_parent ul li a{
+    color:#fff;
+}
+#second_parent ul li:hover{
+    background:#00f;
+}
+#last_parent{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    /* border:1px solid #000; */
+}
+#last_parent ul{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    /* border:1px solid #000; */
+}
+#last_parent div:first-child ul li{
+    margin-left:6px;
+}
+#last_parent div:last-child ul{
+    margin-right:200px; 
+}
+#last_parent div:last-child ul li{
+    margin-left:10px;
+}

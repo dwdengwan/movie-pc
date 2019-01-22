@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/movie_dypf.css">
+    <script src="js/js/vue.js"></script>
+    <script src="js/js/axios.min.js"></script>
+    <script src="js/js/jquery-1.11.3.js"></script>
+    <script src="js/header.js"></script>
+    <script src="js/footer.js"></script>
+</head>
+<body>
+    <header id="header"></header>
+    <!-- 电影票房 -->
+    <div id="content">
+        <div class="right">
+            <div class="top">
+                <h3>电影票房排行榜</h3>
+                <select>
+                    <option>表格</option>  
+                    <option>柱状图</option>
+                    <option>饼状图</option>
+                </select>     
+            </div>
+            <div class="bottom" id="cv">
+                <table>
+                    <thead>
+                        <th></th>
+                        <th>电影名称</th>
+                        <th>导演</th>
+                        <th>上演时间</th>
+                        <th>上演天数</th>
+                        <th>累计票房</th>
+                    </thead>
+                    <tr v-for="key of list">
+                        <td>{{key.id}}</td>
+                        <td>{{key.movie_name}}</td>
+                        <td>{{key.auther}}</td>
+                        <td>{{key.day}}</td>
+                        <td>{{key.num1}}</td>
+                        <td>{{key.num2}}</td>
+                    </tr>
+                </table>
+                <canvas width="800" height="600" id="v3"></canvas>
+                <canvas width="800" height="600" id="v587"></canvas>
+            </div>
+        </div>
+        <div class="left"></div>
+    </div>
+    <footer id="footer"></footer>
+    <script>
+        var v3=document.getElementById("v3");
+        var ctx=v3.getContext("2d");
+        // ctx.stlye.background="#f0f";
+        var v587=document.getElementById("v587");
+        var ctx2=v587.getContext("2d");
+        //画阶梯线
+        ctx.beginPath();
+        ctx.moveTo(45,442);
+        ctx.lineTo(785,442);
+        ctx.lineTo(785,334);
+        ctx.lineTo(45,334);
+        ctx.lineTo(785,334);
+        ctx.lineTo(785,226);
+        ctx.lineTo(45,226);
+        ctx.lineTo(45,118);
+        ctx.lineTo(785,118);
+        ctx.strokeStyle="#ddd";
+        ctx.stroke();
+        //绘制矩形
+        ctx.fillStyle="rgba(240,250,220,0.5)";
+        ctx.fillRect(45,15,740,540);
+        //绘制文字
+        var str1="0";
+        var str2="14K";
+        var str3="28K";
+        var str4="42K";
+        var str5="56K";
+        var str6="70K";
+        ctx.font="12px sans-serif";
+        ctx.textBaseline="top";//基线对齐方式是顶部
+        ctx.fillStyle="#000";
+        ctx.fillText(str1,30,552);
+        ctx.fillText(str2,20,442);
+        ctx.fillText(str3,20,334);
+        ctx.fillText(str4,20,226);
+        ctx.fillText(str5,20,118);
+        ctx.fillText(str6,20,10);
+        axios.get("http://127.0.0.1:3000/getPillar").then(function(res){
+            // console.log(res.data);
+            var list=res.data;
+            for(var i=0;i<list.length;i++){
+                var w=50;
+                var h=list[i].num*8;
+                var y=600-h-45;
+                var x=i*60+50;
+                var r=Math.random()*255;
+                var g=Math.random()*255;
+                var b=Math.random()*255;
+                var str1=`${list[i].num}K`;
+                var str2=`${list[i].title}`;
+                ctx.fillStyle=`rgb(${r},${g},${b})`;
+                ctx.fillRect(x,y,w,h);
+                ctx.font="10px sans-serif";//创建字体
+                ctx.textBaseline="top";//设置文本基线为top
+                ctx.fillStyle="#000";//重新给文字绘制成黑色
+                ctx.measureText(str1)<=50;
+                ctx.measureText(str2)<=50;
+                ctx.fillText(str1,x+10,y-20);//填充文本0,0 左上
+                ctx.fillText(str2,x,560);
+            }
+            var n=0;//计算总值
+            for(var i=0;i<list.length;i++){
+                n+=list[i].num;
+            }
+            for(var i=0;i<list.length;i++){
+                // console.log(111);
+                if(i>0){
+                    var now=(list[i].num)/n;//当前i所占的比例
+                    // console.log(now);
+                    var num1=0;
+                    for(var i=1;i<list.length;i++){
+                        var color=`rgb(${r},${g},${b})`; 
+                        ctx2.save();
+                        ctx2.beginPath();
+                        num1+=list[i-1].num;
+                        var pre=num1/n;//前i个所占的比例总和
+                        // console.log(pre);
+                        ctx2.arc(400,300,200,pre*360*Math.PI/180,(pre+now)*360*Math.PI/180);
+                        // console.log(pre*360*Math.PI/180)
+                        ctx2.lineTo(400,300);
+                        ctx2.closePath();
+                        ctx2.fillStyle=color;
+                        ctx2.fill();
+                        ctx2.restore();
+                        pre+=now;
+                        color=`rgb(${r},${g},${b})`;
+                        // console.log(222);
+                        // console.log(`rgb(${r},${g},${b})`);
+                    }
+                }else {
+                    var color=`rgb(${r},${g},${b})`;
+                    ctx2.save();
+                    ctx2.beginPath();
+                    now=list[0].num/n;
+                    ctx2.arc(400,300,200,0,now*360*Math.PI/180);
+                    ctx2.lineTo(400,300);
+                    ctx2.closePath();
+                    ctx2.fillStyle=color;
+                    ctx2.fill();
+                    ctx2.restore();
+                    pre+=now;
+                    color=`rgb(${r},${g},${b})`;
+                    // console.log(333);
+                    // console.log(`rgb(${r},${g},${b})`);
+                }
+            }
+        })
+        axios.get("http://127.0.0.1:3000/getDypfTable").then(function(res){
+            new Vue({
+                el:"#cv",
+                data:{
+                    list:[],
+                },
+                created() {
+                    this.list=res.data;
+                },
+            })
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+body{
+    font: 12px "microsoft yahei", Arial, Helvetica, sans-serif;
+    color: #666;
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+}
+a{
+    text-decoration: none;
+}
+ul{
+    list-style-type: none;
+}
+#content{
+    /* position: relative; */
+    margin:0 auto;
+    width: 1210px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content:space-between;
+}
+#content .right{
+    text-align: center;
+    width:800px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content:space-between;
+}
+#content .right .top{
+    text-align: center;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content:space-between;
+}
+#content .right .top h3{
+    margin:0px;
+    color: #000000;
+    padding: 10px;
+    text-align: center;
+    font-size: 22px;
+}
+#content .right .top select{
+    border: 1px solid #999;
+    margin-left:355px;
+    /* padding: 0px 10px; */
+    width:90px;
+    height: 30px;
+    font-size: 20px;
+    line-height: 30px;
+    text-align: center;
+}
+#content .right .top select option{
+    font-size: 20px;
+}
+#content .right .bottom table thead th{
+    height: 30px;
+    font-size: 16px;
+    line-height: 30px;
+    color:#333;
+    /* border:1px solid red; */
+    background: #ddd;
+}
+#content .right .bottom table tr td{
+    border-bottom: 1px dashed #aaaaaa;
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
+    font-size: 16px;
+}
+#content .right .bottom table tr td:nth-child(2){
+    color: #005ea7;
+    font-weight: bold;
+}
+#content .right .bottom table tr td:first-child,
+#content .right .bottom table tr td:last-child{
+    color: #FA170A;
+}
+#content .right .bottom table thead th:first-child{
+    width: 35px;
+}
+#content .right .bottom table thead th:nth-child(2){
+    width: 220px;
+}
+#content .right .bottom table thead th:nth-child(3){
+    width: 200px;
+}
+#content .right .bottom table thead th:nth-child(4){
+    width: 150px;
+}
+#content .right .bottom table thead th:nth-child(5){
+    width: 100px;
+}
+#content .right .bottom table thead th:nth-child(6){
+    width: 100px;
+}
+#content .right .bottom canvas{
+    margin-top:10px; 
+    background: pink;
+    border:2px solid red;
+}
+#content .left{
+    width:400px;
+}

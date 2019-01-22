@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/movie_jrys.css">
+    <script src="js/js/vue.js"></script>
+    <script src="js/js/jquery-1.11.3.js"></script>
+    <script src="js/js/axios.min.js"></script>
+    <script src="js/header.js"></script>
+    <script src="js/footer.js"></script>
+</head>
+<body>
+    <header id="header"></header>
+    <!-- 今日影视 -->
+    <div class="content">
+        <div class="right" id="sdiao">
+            <div class="top">
+                <ul>
+                    <li>今日电视</li>
+                    <li>影院热演</li>
+                </ul>
+            </div>
+            <div class="buttom">
+                <!-- 今日:2019-1-10 星期四 -->
+                <p id="today"></p>
+                <div class="b1" v-for="key of list">
+                    <div class="lf"></div>
+                    <div class="m1">{{key.day}}</div>
+                    <div class="m2">
+                        <img :src="key.img">
+                    </div>
+                    <div class="rt"> 
+                        <ul>
+                            <li>{{key.title}}</li>
+                            <li>主演：{{key.uname}}</li>
+                            <li>导演：{{key.auther}}</li>
+                            <li>类型：{{key.lx}} 地区：{{key.area}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="bt"><!--@click="removeClass"-->
+                <ul>
+                    <!-- :class="cl" -->
+                    <li @click="first" :class="cl0"><a href="javascript:;" :class="cl0">首页</a></li>
+                    <li @click="change(-1)" :class="cl1"><a :class="cl1" href="javascript:;">上一页</a></li>
+                    <li :class="key+1==this.pno?'actived':''" v-for="key of PC" @click="moveTo(key+1)"><a :class="cl2" href="javascript:;">{{key+1}}</a></li>
+                    <li @click="change(+1)" :class="cl3"><a :class="cl3" href="javascript:;">下一页</a></li>
+                    <li @click="last" :class="cl4"><a href="javascript:;" :class="cl4">末页</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="left" id="rbys">
+            <div class="top">热门影视</div>
+            <div class="bottom">
+                <ul>
+                    <li v-for="key of list">
+                        <h4>{{key.title}}</h4>
+                        <div class="b_div">
+                            <div>
+                                <img :src="key.img_url">
+                            </div>
+                            <ul>
+                                <li><span>主演:</span>{{key.uname}}</li>
+                                <li><span>类型:</span>{{key.mold}}</li>
+                                <li><span>上映:</span>{{key.year}}年</li>
+                                <li><span>状态:</span>更新至{{key.num}}集</li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <footer id="footer"></footer>
+<script>
+    new Vue({
+        el:"#rbys",
+        data:{
+            list:[],
+        },
+        created() {
+            this.fun();
+        },
+        methods:{
+            fun(){
+                axios.get("http://127.0.0.1:3000/getRbys1").then(result=>{
+                    this.list=result.data;
+                })
+            }
+        }
+    })
+
+    new Vue({
+        el:"#sdiao",
+        data:{
+            list:[],
+            pageIndex:1,
+            pageSize:8,
+            pageCount:1,
+            PC:[],
+            cl0:"",
+            cl1:"",
+            cl2:"",
+            cl3:"",
+            cl4:"",
+        },
+        created(){
+            this.getMore();
+        },
+        methods:{
+            getMore(){//发送axios请求后台数据
+                var pno = this.pageIndex;
+                var ps = this.pageSize;
+                var url = "http://127.0.0.1:3000";
+                url +="/getLeft";
+                url +="?pno="+pno+"&pageSize="+ps;
+                axios.get(url).then(result=>{
+                    this.list = result.data.data;
+                    this.pageCount = result.data.pageCount;
+                    console.log(this.list);
+                    this.PC=[];
+                    for(var i=0;i<this.pageCount;i++){
+                    this.PC.push(i);
+                }
+                });
+            },
+            change(i){//上一页 下一页
+                if(this.pageIndex>=0&& 
+                this.pageIndex<=this.pageCount){
+                    console.log(this);
+                    this.pageIndex+=i;
+                }
+                else{this.pageIndex=1}
+                this.removeClass();
+                if(i==1)this.cl3="actived";
+                else this.cl1="actived";
+                this.getMore();
+            },
+            first(){//去第一页
+                this.removeClass();
+                this.cl0="actived";
+                this.pageIndex=1;
+                this.getMore();
+            },
+            last(){//去最后一页
+                this.removeClass();
+                this.cl4="actived";
+                this.pageIndex=this.pageCount;
+                this.getMore();
+            },
+            moveTo(i){
+                this.pageIndex=i;
+                this.getMore();
+                this.removeClass();
+                // this.cl2="actived";
+            },
+            removeClass(){//移除所有class属性
+                this.cl0="";
+                this.cl1="";
+                this.cl2="";
+                this.cl3="";
+                this.cl4="";
+            },
+        }
+    })
+</script>
+<script>
+    var weekday="";
+    switch((new Date()).getDay()){
+        case 0:
+            weekday="星期日";
+            break;
+        case 1:
+            weekday="星期一";
+            break;
+        case 2:
+            weekday="星期二";
+            break;
+        case 3:
+            weekday="星期三";
+            break;
+        case 4:
+            weekday="星期四";
+            break;
+        case 5:
+            weekday="星期五";
+            break;
+        case 5:
+            weekday="星期六";
+            break;
+    }
+    var year=(new Date()).getFullYear();
+    var month=(new Date()).getMonth()+1;
+    var day=(new Date()).getDate();
+    if(month<10)month="0"+month;
+    if(day<10)day="0"+day;
+    $("#today").html("今日:"+year+"年-"+month+"月-"+day+"日 "+weekday);
+</script>
+</body>
+</html>

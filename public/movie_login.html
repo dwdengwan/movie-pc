@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/movie_login.css">
+    <script src="js/js/jquery-1.11.3.js"></script>
+    <script src="js/js/vue.js"></script>
+    <script src="js/js/axios.min.js"></script>
+    <script src="js/js/qs_min.js"></script>
+</head>
+<body>
+    <!-- 登录页 -->
+    <a href="index.html">返回首页</a>
+    <form action="" id="fm">
+        <input id="txt" type="text" placeholder="请输入手机号" v-model="uphone">
+        <input id="pwd" type="password" placeholder="请输入密码" v-model="upwd">
+        <input id="sub" type="submit" @click.prevent="change"
+        >
+    </form>
+    <script>
+        new Vue({
+            el:"#fm",
+            data:{
+                uphone:"",//18874556958
+                upwd:"",//123456
+            },
+            methods: {
+                getMore(){
+                    var url="http://127.0.0.1:3000/login?uphone="+this.uphone+"&upwd="+this.upwd;
+                    axios.get(url).then((res)=>{
+                        var code=res.data.code;
+                        if(code>0){
+                            alert("登陆成功")
+                            location.href="index.html";
+                        }
+                        else alert("登陆失败")
+                    })
+                },
+                change(){
+                    this.getMore();
+                },
+                fun(){
+                    console.log(this.uphone);
+                    console.log(this.upwd);
+                }
+            },
+            created() {
+                this.fun();
+            },
+            watch:{
+                uphone(){
+                    // this.getMore();
+                    console.log(this.uphone);
+                },
+                upwd(){
+                    // this.getMore();
+                    console.log(this.upwd);
+                },
+            },
+        })
+    </script>
+</body>
+</html>
