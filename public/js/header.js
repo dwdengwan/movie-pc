@@ -13,7 +13,7 @@ $(function(){
         var daojs=function(){
         var time=new Date().getTime();//现在时间
         //过年时间
-        var time0=new Date("2019/02/05 00:00:00").getTime();
+        var time0=new Date("2019/02/19 00:00:00").getTime();
         var time1=time0-time;//相差的千毫秒数
         var d=parseInt(time1/1000/3600/24);//天
         var num=time1-d*1000*3600*24;
@@ -25,7 +25,7 @@ $(function(){
         if(h<10)h="0"+h;
         if(min<10)min="0"+min;
         if(s<10)s="0"+s;
-        day.innerHTML=`距春节还有${d}天${h}小时${min}分钟${s}秒钟！！！`;
+        day.innerHTML=`距2019年元宵节还有${d}天${h}小时${min}分钟${s}秒钟！！！`;
       }
       setInterval(daojs,1000);
         //获得搜索框

@@ -10,16 +10,46 @@
     <script src="js/js/vue.js"></script>
     <script src="js/js/axios.min.js"></script>
     <script src="js/js/qs_min.js"></script>
+    <style>
+        #container{
+            text-align: center;
+            display: flex;
+            flex-flow: column nowrap;
+            justify-content: space-around;
+        }
+        body{
+            margin: 0 auto;
+        }
+        form{
+            /* margin-left:40rem;
+            margin-top:15rem; */
+            width:200px;
+            height: 100px;
+            display: flex;
+            flex-flow: column nowrap;
+            justify-content: flex-start;
+        }
+        form input{
+            margin-top:10px;
+            height: 20px;
+        }
+        form [submit]{
+             width: 40px;
+        }
+        #txt{}
+    </style>
 </head>
 <body>
     <!-- 登录页 -->
-    <a href="index.html">返回首页</a>
-    <form action="" id="fm">
-        <input id="txt" type="text" placeholder="请输入手机号" v-model="uphone">
-        <input id="pwd" type="password" placeholder="请输入密码" v-model="upwd">
-        <input id="sub" type="submit" @click.prevent="change"
+    <div id="container">
+        <a href="index.html">返回首页</a>
+        <form action="" id="fm">
+            <input id="txt" type="text" placeholder="请输入手机号" v-model="uphone">
+            <input id="pwd" type="password" placeholder="请输入密码" v-model="upwd">
+            <input id="sub" type="submit" @click.prevent="change"
         >
-    </form>
+        </form>
+    </div>
     <script>
         new Vue({
             el:"#fm",
